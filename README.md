@@ -9,7 +9,7 @@
     - [ ] account bound
         
 - [ ] Customizations
-   - [ ] edit todo items
+   - [ ] move items up and down
          
 
 ### __All planned features__
@@ -33,7 +33,7 @@
     - [ ] labels and tags
     - [ ] priority colors
     - [ ] reminders
-    - [ ] edit todo items
+    - [x] edit todo items
     - [ ] move items up and down
     - [ ] themes
         - [ ] blue
