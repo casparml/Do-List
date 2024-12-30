@@ -11,7 +11,7 @@
     <!-- Low Priority Global Metadata -->
     <meta name="author" content="Caspar Landman">
     <!-- Style Links -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <!-- Page Metadata -->
     <link rel="canonical" href="https://dolist.nl/">
     <link rel="manifest" href="manifest.json">
@@ -33,6 +33,15 @@
         <ul id="todo-list">
             <!-- Todo items will go here -->
         </ul>
+    </div>
+    <!-- Modal HTML -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Edit Todo Item</h2>
+            <input type="text" id="editInput" />
+            <button id="saveButton">Save</button>
+        </div>
     </div>
 </body>
 </html>

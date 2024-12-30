@@ -4,6 +4,10 @@
     --secondary-color: #4A4D57;
     --accent-color: #FBFBFB;
     --text-color: #F9F9F9;
+
+    --aprove-color: #13af30;
+    --aprove-hover-color: #17982f;
+    --remove-color: #FF002a;
 }
 
 * {
@@ -48,6 +52,7 @@ h1 {
     padding: 12px 20px;
     width: 100%;
     background: none;
+    outline: none;
     border: 2px solid var(--secondary-color);
     border-radius: 1000px;
     font: inherit;
@@ -110,7 +115,7 @@ form {
 }
 
 .delete-button:hover svg {
-    fill: #FF002a;
+    fill: var(--remove-color);
 }
 
 .custom-checkbox {
@@ -143,7 +148,75 @@ input[type="checkbox"] {
     display: none;
 }
 
-@media(max-width: 500px) {
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: var(--background);
+}
+
+.modal-content {
+    background-color: var(--primary-color);
+    margin: 15% auto;
+    padding: 20px;
+    border: 5px solid var(--primary-color);
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+    color: var(--secondary-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--remove-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
+
+.modal-content input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    outline: none;
+    margin-bottom: .9rem;
+    border: 1px solid #ccc;
+    border-radius: 1000px;
+    box-sizing: border-box;
+}
+
+.modal-content button {
+    background-color: var(--aprove-color);
+    color: white;
+    padding: 10px 20px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-content button:hover {
+    background-color: var(--aprove-hover-color);
+}
+
+@media(max-width: 700px) {
     html {
         font-size: 12pt;
     }
@@ -151,21 +224,26 @@ input[type="checkbox"] {
     #add-button {
         position: unset;
         width: 100%;
-        margin-top: 10px;
         padding: 15px;
+        border-radius: 0;
         height: auto;
     }
 
     h1 {
         margin-top: 50px;
-        font-size: 15vw;
+        font-size: 50pt;
     }
 
+    .todo {
+        border-radius: 0;
+    }
     .todo .todo-text {
         padding: 15px;
     }
 
+
     #todo-input {
         text-align: center;
+        border-radius: 0;
     }
 }

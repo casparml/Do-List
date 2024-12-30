@@ -9,24 +9,27 @@ const entityMap = {
     "'": '&#39;',
     '/': '&#x2F;',
     '`': '&#x60;',
-    '=': '&#x3D;'};
+    '=': '&#x3D;'
+};
 
+// Retrieve todos from local storage
 let allTodos = getTodos();
 updateTodoList();
 
+// Add event listener to the form to handle new todo submissions
 todoForm.addEventListener('submit', function(e) {
     e.preventDefault();
     addTodo();
-})
+});
 
-// add todo
+// Add a new todo item
 function addTodo() {
     const todoText = todoInput.value.trim();
-    if(todoText.length > 0) {
+    if (todoText.length > 0) {
         const todoObject = {
             text: todoText,
             completed: false
-        }
+        };
         allTodos.push(todoObject);
         updateTodoList();
         saveTodos();
@@ -34,27 +37,10 @@ function addTodo() {
     }
 }
 
-// update todo list
-function updateTodoList() {
-    todoListUL.innerHTML = "";
-    allTodos.forEach((todo, todoIndex)=> {
-        todoItem = createTodoItem(todo, todoIndex);
-        todoListUL.append(todoItem);
-    })
-}
-
-// sanitize function
-function escapeHtml (string) {
-    return String(string).replace(/[&<>"'`=\/]/g, function (s) {
-        return entityMap[s];
-    });
-}
-
-// Create todo item
 function createTodoItem(todo, todoIndex) {
-    const todoId = "todo-"+todoIndex;
+    const todoId = "todo-" + todoIndex;
     const todoLI = document.createElement("li");
-    todoText = escapeHtml(todo.text);
+    const todoText = escapeHtml(todo.text);
     todoLI.className = "todo";
     todoLI.innerHTML = `
     <input type="checkbox" id="${todoId}">
@@ -63,7 +49,7 @@ function createTodoItem(todo, todoIndex) {
                         <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
                     </svg>
                 </label>
-                <label for="${todoId}" class="todo-text">
+                <label class="todo-text">
                     ${todoText}
                 </label>
                 <button class="delete-button">
@@ -71,54 +57,126 @@ function createTodoItem(todo, todoIndex) {
                         <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
                     </svg>
                 </button>
-    `
+    `;
     const deleteButton = todoLI.querySelector(".delete-button");
-    deleteButton.addEventListener("click", ()=> {
+    deleteButton.addEventListener("click", () => {
         deleteTodoItem(todoIndex);
-    })
+    });
     const checkbox = todoLI.querySelector("input");
-    checkbox.addEventListener("change", ()=> {
+    checkbox.addEventListener("change", () => {
         allTodos[todoIndex].completed = checkbox.checked;
         saveTodos();
-    })
+    });
+    const todoTextLabel = todoLI.querySelector(".todo-text");
+    todoTextLabel.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openEditModal(todoIndex, todo.text);
+    });
     checkbox.checked = todo.completed;
     return todoLI;
 }
 
-// delete todo item
+// Open the edit modal
+function openEditModal(todoIndex, currentText) {
+    const modal = document.getElementById("editModal");
+    const editInput = document.getElementById("editInput");
+    const saveButton = document.getElementById("saveButton");
+    const closeButton = document.querySelector(".close-button");
+
+    editInput.value = currentText;
+    modal.style.display = "block";
+
+    const saveChanges = () => {
+        const newText = editInput.value;
+        if (newText !== null) {
+            editTodoItem(todoIndex, newText);
+            modal.style.display = "none";
+            editInput.removeEventListener("keydown", handleKeyDown);
+        }
+    };
+
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            saveChanges();
+        }
+    };
+
+    saveButton.onclick = saveChanges;
+
+    editInput.addEventListener("keydown", handleKeyDown);
+
+    closeButton.onclick = () => {
+        modal.style.display = "none";
+        editInput.removeEventListener("keydown", handleKeyDown);
+    };
+
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            editInput.removeEventListener("keydown", handleKeyDown);
+        }
+    };
+}
+
+// Edit an existing todo item
+function editTodoItem(todoIndex, newText) {
+    const sanitizedText = escapeHtml(newText.trim());
+    if (sanitizedText.length > 0) {
+        allTodos[todoIndex].text = sanitizedText;
+        saveTodos();
+        updateTodoList();
+    }
+}
+
+// Delete a todo item
 function deleteTodoItem(todoIndex) {
-    allTodos = allTodos.filter((_, i)=> i !== todoIndex);
+    allTodos = allTodos.filter((_, i) => i !== todoIndex);
     saveTodos();
     updateTodoList();
 }
 
-// save todos to local storage
+// Save todos to local storage
 function saveTodos() {
-    const todosJson = JSON.stringify(allTodos);
-    localStorage.setItem("todos", todosJson);
+    localStorage.setItem('todos', JSON.stringify(allTodos));
 }
 
-// get todos from local storage
+// Retrieve todos from local storage
 function getTodos() {
-    const todos = localStorage.getItem("todos") || "[]";
-    return JSON.parse(todos);
+    const todos = localStorage.getItem('todos');
+    return todos ? JSON.parse(todos) : [];
 }
 
-
-// Dynamic favicon
-window.onload = function () {
-	const favicon = document.getElementById('favicon')
-  
-	document.addEventListener('visibilitychange', function (e) {
-	  const isPageActive = !document.hidden
-	  toggle(isPageActive)
-	})
-  
-	function toggle(isPageActive) {
-	  if (isPageActive) {
-		favicon.href = './assets/images/logo.png'
-	  } else {
-		favicon.href = './assets/images/logo-away.png'
-	  }
-	}
+// Update the todo list in the DOM
+function updateTodoList() {
+    todoListUL.innerHTML = '';
+    allTodos.forEach((todo, index) => {
+        const todoItem = createTodoItem(todo, index);
+        todoListUL.appendChild(todoItem);
+    });
 }
+
+// Escape HTML to prevent XSS attacks
+function escapeHtml(string) {
+    return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+        return entityMap[s];
+    });
+}
+
+// Change favicon based on page visibility
+window.onload = function() {
+    const favicon = document.getElementById('favicon');
+
+    document.addEventListener('visibilitychange', function() {
+        const isPageActive = !document.hidden;
+        toggleFavicon(isPageActive);
+    });
+
+    function toggleFavicon(isPageActive) {
+        if (isPageActive) {
+            favicon.href = './assets/images/logo.png';
+        } else {
+            favicon.href = './assets/images/logo-away.png';
+        }
+    }
+};
