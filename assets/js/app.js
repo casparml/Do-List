@@ -41,7 +41,7 @@ function createTodoItem(todo, todoIndex) {
     const todoId = "todo-" + todoIndex;
     const todoLI = document.createElement("li");
     const todoText = escapeHtml(todo.text);
-    todoLI.className = "todo";
+    todoLI.className = "todo d-flex align-items-center";
     todoLI.innerHTML = `
     <input type="checkbox" id="${todoId}">
                 <label class="custom-checkbox" for="${todoId}">
@@ -81,7 +81,7 @@ function openEditModal(todoIndex, currentText) {
     const modal = document.getElementById("editModal");
     const editInput = document.getElementById("editInput");
     const saveButton = document.getElementById("saveButton");
-    const closeButton = document.querySelector(".close-button");
+    const cancelButton = document.getElementById("cancelButton");
 
     editInput.value = currentText;
     modal.style.display = "block";
@@ -106,7 +106,7 @@ function openEditModal(todoIndex, currentText) {
 
     editInput.addEventListener("keydown", handleKeyDown);
 
-    closeButton.onclick = () => {
+    cancelButton.onclick = () => {
         modal.style.display = "none";
         editInput.removeEventListener("keydown", handleKeyDown);
     };

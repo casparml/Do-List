@@ -2,27 +2,29 @@
 <html lang="en">
 <head>
     <!-- High Priority Global Metadata -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#101114">
-    <meta name="google" content="notranslate">
-    <meta http-equiv="Content-Language" content="en_US">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101114" />
+    <meta name="google" content="notranslate" />
+    <meta http-equiv="Content-Language" content="en_US" />
     <title>Do List</title>
     <!-- Low Priority Global Metadata -->
-    <meta name="author" content="Caspar Landman">
+    <meta name="author" content="Caspar Landman" />
     <!-- Style Links -->
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
     <!-- Page Metadata -->
-    <link rel="canonical" href="https://dolist.nl/">
-    <link rel="manifest" href="manifest.json">
-    <meta name="description" content="A simple todo list, that saves your notes locally. Keep track of your tasks and progress.">
+    <link rel="canonical" href="https://dolist.nl/" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="description" content="A simple todo list, that saves your notes locally. Keep track of your tasks and progress." />
     <!-- Icons Links -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.jpg">
-    <link id='favicon' rel="shortcut icon" type="image/x-png" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.jpg" />
+    <link id='favicon' rel="shortcut icon" type="image/x-png" href="assets/images/logo.png" />
     <!-- Javascript file -->
     <script defer src="assets/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/   js?id=G-MZF77973JT"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZF77973JT"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -32,25 +34,45 @@
     </script>
 </head>
 <body>
-    <h1>Do List</h1>
-    <div class="wrapper">
-        <form>
-            <input id="todo-input" type="text" 
-            placeholder="write anything and hit ender to add" autocomplete="off">
-            <button id="add-button">ADD</button>
-        </form>
-        <ul id="todo-list">
-            <!-- Todo items will go here -->
-        </ul>
-    </div>
-    <!-- Modal HTML -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Edit Todo Item</h2>
-            <input type="text" id="editInput" />
-            <button id="saveButton">Save</button>
+    <!-- Main content -->
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-center my-5">Do List</h1>
+                <div class="wrapper">
+                    <form class="d-flex flex-column mb-3">
+                        <input id="todo-input" type="text" class="form-control me-2" placeholder="Write anything and hit enter to add" autocomplete="off">
+                        <button id="add-button" class="btn btn-primary">ADD</button>
+                    </form>
+                    <ul id="todo-list" class="list-group"></ul>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
+    <!-- Modal HTML -->
+    <section class="container">
+        <div class="row">
+            <div class="col">
+                <div id="editModal" class="modal">
+                    <div class="modal-content p-4">
+                        <div class="row">
+                            <div class="col">
+                                <h2 class="text-center">Edit Todo Item</h2>
+                                <input type="text" id="editInput" class="form-control mb-3 w-100" />
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center px-5">
+                            <div class="col-6 px-0">
+                                <button class="btn btn-primary rounded-end-0 w-100" id="cancelButton">Cancel</button>
+                            </div>
+                            <div class="col-6 px-0">
+                                <button class="btn btn-primary w-100 rounded-start-0" id="saveButton">Save</button>
+                            </div>
+                        </div
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
