@@ -5,6 +5,8 @@
     --secondary-color: #4A4D57;
     --text-color: #F9F9F9;
     --accent-color: #FBFBFB;
+    --link-color: #dbdbdb;
+    --link-hover-color: #c1c1c1;
     --true-color: #16cc37;
     --true-hover-color: #16cc37d8;
     --false-color: #FF002a;
@@ -158,6 +160,18 @@ input[type="checkbox"]:checked ~ .todo-text {
 
 input[type="checkbox"] {
     display: none;
+}
+
+#footerText {
+    font-size: .85rem;
+}
+
+a {
+    color: var(--link-color);
+}
+
+a:hover {
+    color: var(--link-hover-color);
 }
 
 /* Modal Styles */
