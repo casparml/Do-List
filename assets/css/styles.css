@@ -213,19 +213,21 @@ input[type="checkbox"] {
 }
 
 #cancelButton {
-    background-color: var(--false-color);
+    color: var(--false-color);
+    font-size: 3rem;
 }
 
 #cancelButton:hover {
-    background-color: var(--false-hover-color);
+    color: var(--false-hover-color);
 }
 
 #saveButton {
-    background-color: var(--true-color);
+    color: var(--true-color);
+    font-size: 3rem;
 }
 
 #saveButton:hover {
-    background-color: var(--true-hover-color);
+    color: var(--true-hover-color);
 }
 
 /* Responsive Styles */
