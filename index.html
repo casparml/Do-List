@@ -34,9 +34,9 @@
       gtag('config', 'G-MZF77973JT');
     </script>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Main content -->
-    <main class="container">
+    <main class="container flex-grow-1">
         <div class="row">
             <div class="col-12">
                 <div class="d-flex justify-content-center">
@@ -56,6 +56,22 @@
             </div>
         </div>
     </main>
+    <footer class="bg-dark text-white text-center mt-5 w-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 pe-xl-5">
+                    <div class="text-start text-lg-center text-xl-end pe-xl-5 me-xl-5 my-3">
+                        <p id="footerText" class="my-0">© 2024 - <span id="current-year"></span> Do List.</p>
+                    </div>
+                </div>
+                <div class="col-6 ps-xl-5">
+                    <div class="text-end text-lg-center text-xl-start ps-xl-5 ms-xl-5 my-3">
+                        <p id="footerText" class="my-0">Made by <a href="https://www.casparlandman.com/" target="_blank">Caspar Landman</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!-- Modal HTML -->
     <section class="container">
         <div class="row">
@@ -93,22 +109,6 @@
             </div>
         </div>
     </section>
-    <footer class="bg-dark text-white text-center mt-5 w-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-6 pe-xl-5">
-                    <div class="text-start text-lg-center text-xl-end pe-xl-5 me-xl-5 my-3">
-                        <p id="footerText" class="my-0">© 2024 - <span id="current-year"></span> Do List.</p>
-                    </div>
-                </div>
-                <div class="col-6 ps-xl-5">
-                    <div class="text-end text-lg-center text-xl-start ps-xl-5 ms-xl-5 my-3">
-                        <p id="footerText" class="my-0">Made by <a href="https://www.casparlandman.com/" target="_blank">Caspar Landman</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>

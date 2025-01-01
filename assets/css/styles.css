@@ -1,278 +1,306 @@
+/* ==================
+    CSS Variables
+    ================== */
 :root {
-    /* Color Variables */
-    --background: #101114;
-    --primary-color: #1C1D20;
-    --secondary-color: #4A4D57;
-    --text-color: #F9F9F9;
-    --accent-color: #FBFBFB;
-    --link-color: #dbdbdb;
-    --link-hover-color: #c1c1c1;
-    --true-color: #16cc37;
-    --true-hover-color: #16cc37d8;
-    --false-color: #FF002a;
-    --false-hover-color: #FF002ad8;
+     /* Color Variables */
+     --background: #101114;
+     --primary-color: #1C1D20;
+     --secondary-color: #4A4D57;
+     --text-color: #F9F9F9;
+     --accent-color: #FBFBFB;
+     --link-color: #dbdbdb;
+     --link-hover-color: #c1c1c1;
+     --true-color: #16cc37;
+     --true-hover-color: #16cc37d8;
+     --false-color: #FF002a;
+     --false-hover-color: #FF002ad8;
 }
 
-/* Base Styles */
+/* ==================
+    Base Styles
+    ================== */
 html {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text-color);
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     color: var(--text-color);
 }
 
 body {
-    min-height: 100vh;
-    background-color: var(--background);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+     min-height: 100vh;
+     background-color: var(--background);
+     display: flex;
+     flex-direction: column;
+     align-items: center;
 }
 
-/* Header Styles */
+/* ==================
+    Header Styles 
+    ================== */
 h1 {
-    margin-top: 100px;
-    margin-bottom: 20px;
-    font-size: 3rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    text-align: center;
-    color: var(--accent-color);
+     margin-top: 100px;
+     margin-bottom: 20px;
+     font-size: 3rem;
+     font-weight: 800;
+     text-transform: uppercase;
+     text-align: center;
+     color: var(--accent-color);
 }
 
-/* Wrapper Styles */
+/* ==================
+    Wrapper Styles
+    ================== */
 .wrapper {
-    width: 700px;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+     width: 700px;
+     max-width: 100%;
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
 }
 
-/* Input Styles */
+/* ==================
+    Form & Input Styles
+    ================== */
 #todo-input {
-    box-sizing: border-box;
-    padding: 12px 20px;
-    width: 100%;
-    background: none;
-    outline: none;
-    border: 2px solid var(--primary-color);
-    border-radius: 1000px;
-    font: inherit;
-    color: var(--text-color);
-    caret-color: var(--text-color);
+     box-sizing: border-box;
+     padding: 12px 20px;
+     width: 100%;
+     background: none;
+     outline: none;
+     border: 2px solid var(--primary-color);
+     border-radius: 1000px;
+     font: inherit;
+     color: var(--text-color);
+     caret-color: var(--text-color);
 }
 
 #todo-input:focus {
-    box-shadow: none;
+     box-shadow: none;
 }
 
 #todo-input::placeholder {
-    color: var(--secondary-color);
+     color: var(--secondary-color);
 }
 
-/* Form Styles */
 form {
-    position: relative;
-    margin-bottom: 25px;
+     position: relative;
+     margin-bottom: 25px;
 }
 
 #add-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: var(--accent-color);
-    height: 100%;
-    padding: 0 30px;
-    border: none;
-    border-radius: 1000px;
-    font: inherit;
-    font-weight: 600;
-    color: var(--background);
-    cursor: pointer;
+     position: absolute;
+     top: 0;
+     right: 0;
+     background-color: var(--accent-color);
+     height: 100%;
+     padding: 0 30px;
+     border: none;
+     border-radius: 1000px;
+     font: inherit;
+     font-weight: 600;
+     color: var(--background);
+     cursor: pointer;
 }
 
 #add-button:hover {
-    background-color: var(--secondary-color);
-    color: var(--accent-color);
+     background-color: var(--secondary-color);
+     color: var(--accent-color);
 }
 
-/* Todo Item Styles */
+/* ==================
+    Todo Item Styles
+    ================== */
 .todo {
-    margin-bottom: 10px;
-    padding: 0 16px;
-    background-color: var(--primary-color);
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
+     margin-bottom: 10px;
+     padding: 0 16px;
+     background-color: var(--primary-color);
+     border-radius: 15px;
+     display: flex;
+     align-items: center;
 }
 
 .todo .todo-text {
-    padding: 15px 15px;
-    flex-grow: 1;
-    color: var(--text-color);
-    transition: 200ms ease;
+     padding: 15px 15px;
+     flex-grow: 1;
+     color: var(--text-color);
+     transition: 200ms ease;
 }
 
-/* Delete Button Styles */
+/* ==================
+    Delete Button Styles
+    ================== */
 .delete-button {
-    padding: 3px;
-    background: none;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+     padding: 3px;
+     background: none;
+     border: none;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     cursor: pointer;
 }
 
 .delete-button svg {
-    transition: 200ms ease;
+     transition: 200ms ease;
 }
 
 .delete-button:hover svg {
-    fill: var(--false-color);
+     fill: var(--false-color);
 }
 
-/* Checkbox Styles */
+/* ==================
+    Checkbox Styles
+    ================== */
 .custom-checkbox {
-    border: 2px solid var(--accent-color);
-    border-radius: 50%;
-    min-height: 20px;
-    min-width: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-    transition: 200ms ease;
-    cursor: pointer;
+     border: 2px solid var(--accent-color);
+     border-radius: 50%;
+     min-height: 20px;
+     min-width: 20px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-shrink: 0;
+     transition: 200ms ease;
+     cursor: pointer;
 }
 
 input[type="checkbox"]:checked ~ .custom-checkbox {
-    background-color: var(--accent-color);
+     background-color: var(--accent-color);
 }
 
 input[type="checkbox"]:checked ~ .custom-checkbox svg {
-    fill: var(--primary-color);
+     fill: var(--primary-color);
 }
 
 input[type="checkbox"]:checked ~ .todo-text {
-    text-decoration: line-through;
-    color: var(--secondary-color);
+     text-decoration: line-through;
+     color: var(--secondary-color);
 }
 
 input[type="checkbox"] {
-    display: none;
+     display: none;
 }
 
+/* ==================
+    Footer Styles
+    ================== */
+
+    
 #footerText {
-    font-size: .85rem;
+     font-size: .85rem;
 }
 
+/* ==================
+    Link Styles
+    ================== */
 a {
-    color: var(--link-color);
+     color: var(--link-color);
 }
 
 a:hover {
-    color: var(--link-hover-color);
+     color: var(--link-hover-color);
 }
 
-/* Modal Styles */
+/* ==================
+    Modal Styles
+    ================== */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: var(--background);
+     display: none;
+     position: fixed;
+     z-index: 1;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     overflow: auto;
+     background-color: var(--background);
 }
 
 .modal-content {
-    background-color: var(--primary-color);
-    margin: 15% auto;
-    padding: 20px;
-    border: 5px solid var(--primary-color);
-    width: 80%;
-    max-width: 500px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+     background-color: var(--primary-color);
+     margin: 15% auto;
+     padding: 20px;
+     border: 5px solid var(--primary-color);
+     width: 80%;
+     max-width: 500px;
+     border-radius: 8px;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .modal-content h2 {
-    margin-top: 0;
-    margin-bottom: .5rem;
-    color: var(--text-color);
+     margin-top: 0;
+     margin-bottom: .5rem;
+     color: var(--text-color);
 }
 
 .modal-content input {
-    width: calc(100% - 20px);
-    padding: 10px;
-    outline: none;
-    margin-bottom: .9rem;
-    border: 1px solid #ccc;
-    border-radius: 1000px;
-    box-sizing: border-box;
+     width: calc(100% - 20px);
+     padding: 10px;
+     outline: none;
+     margin-bottom: .9rem;
+     border: 1px solid #ccc;
+     border-radius: 1000px;
+     box-sizing: border-box;
 }
 
 .modal-content input:focus {
-    box-shadow: none;
+     box-shadow: none;
 }
 
 .modal-content button {
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
+     color: white;
+     padding: 10px 20px;
+     border: none;
+     cursor: pointer;
+     font-size: 16px;
 }
 
 #cancelButton {
-    color: var(--false-color);
-    font-size: 3rem;
+     color: var(--false-color);
+     font-size: 3rem;
 }
 
 #cancelButton:hover {
-    color: var(--false-hover-color);
+     color: var(--false-hover-color);
 }
 
 #saveButton {
-    color: var(--true-color);
-    font-size: 3rem;
+     color: var(--true-color);
+     font-size: 3rem;
 }
 
 #saveButton:hover {
-    color: var(--true-hover-color);
+     color: var(--true-hover-color);
 }
 
-/* Responsive Styles */
+/* ==================
+    Responsive Styles
+    ================== */
 @media(max-width: 700px) {
-    html {
-        font-size: 12pt;
-    }
+     html {
+          font-size: 12pt;
+     }
 
-    #todo-input {
-        text-align: center;
-        border-radius: 10px 10px 0 0;
-    }
-    
-    #add-button {
-        position: unset;
-        width: 100%;
-        padding: 15px;
-        border-radius: 0 0 10px 10px;
-        height: auto;
-    }
+     #todo-input {
+          text-align: center;
+          border-radius: 10px 10px 0 0;
+     }
+     
+     #add-button {
+          position: unset;
+          width: 100%;
+          padding: 15px;
+          border-radius: 0 0 10px 10px;
+          height: auto;
+     }
 
-    h1 {
-        margin-top: 50px;
-        font-size: 50pt;
-    }
+     h1 {
+          margin-top: 50px;
+          font-size: 50pt;
+     }
 
-    .todo {
-        border-radius: 12px;
-    }
+     .todo {
+          border-radius: 12px;
+     }
 
-    .todo .todo-text {
-        padding: 15px;
-    }
+     .todo .todo-text {
+          padding: 15px;
+     }
 }
