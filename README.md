@@ -7,7 +7,10 @@
 
 - [ ] Item storage
     - [ ] account bound
-     
+
+- [ ] Customizations
+    - [ ] folders
+          
 ### __Recently added__
 
 - [x] move items up and down
