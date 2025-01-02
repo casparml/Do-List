@@ -37,12 +37,65 @@ function addTodo() {
     }
 }
 
+// Open the edit modal
+function openEditModal(todoIndex, todoText) {
+    const modal = document.getElementById('editModal');
+    const modalInput = document.getElementById('editInput');
+    modalInput.value = todoText;
+
+    const saveButton = document.getElementById('saveButton');
+    saveButton.onclick = () => {
+        const newText = modalInput.value.trim();
+        if (newText) {
+            allTodos[todoIndex].text = newText;
+            saveTodos();
+            updateTodoList();
+        }
+        modal.style.display = 'none';
+    };
+
+    const cancelButton = document.getElementById('cancelButton');
+    cancelButton.onclick = () => {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+    modal.style.display = 'block';
+}
+
+// Update the todo list
+function updateTodoList() {
+    todoListUL.innerHTML = '';
+    allTodos.forEach((todo, index) => {
+        const todoLI = createTodoItem(todo, index);
+        todoListUL.appendChild(todoLI);
+    });
+}
+
+// Save todos to local storage
+function saveTodos() {
+    localStorage.setItem('todos', JSON.stringify(allTodos));
+}
+
+// Get todos from local storage
+function getTodos() {
+    const todos = localStorage.getItem('todos');
+    return todos ? JSON.parse(todos) : [];
+}
+
+// Create a todo item element
 function createTodoItem(todo, todoIndex) {
     const todoId = "todo-" + todoIndex;
     const todoLI = document.createElement("li");
     const todoText = escapeHtml(todo.text);
     todoLI.className = "todo d-flex align-items-center";
     todoLI.draggable = true; // Make the item draggable
+    todoLI.dataset.index = todoIndex; // Store the index as a data attribute
     todoLI.innerHTML = `
     <input type="checkbox" id="${todoId}">
     <label class="custom-checkbox" for="${todoId}">
@@ -104,122 +157,34 @@ function createTodoItem(todo, todoIndex) {
     return todoLI;
 }
 
-// Open the edit modal
-function openEditModal(todoIndex, currentText) {
-    const modal = document.getElementById("editModal");
-    const editInput = document.getElementById("editInput");
-    const saveButton = document.getElementById("saveButton");
-    const cancelButton = document.getElementById("cancelButton");
-
-    editInput.value = currentText;
-    modal.style.display = "block";
-
-    const saveChanges = () => {
-        const newText = editInput.value;
-        if (newText !== null) {
-            editTodoItem(todoIndex, newText);
-            modal.style.display = "none";
-            editInput.removeEventListener("keydown", handleKeyDown);
-        }
-    };
-
-    const handleKeyDown = (event) => {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            saveChanges();
-        }
-    };
-
-    saveButton.onclick = saveChanges;
-
-    editInput.addEventListener("keydown", handleKeyDown);
-
-    cancelButton.onclick = () => {
-        modal.style.display = "none";
-        editInput.removeEventListener("keydown", handleKeyDown);
-    };
-
-    window.onclick = (event) => {
-        if (event.target == modal) {
-            modal.style.display = "none";
-            editInput.removeEventListener("keydown", handleKeyDown);
-        }
-    };
-}
-
-// Add event listener to the edit button to open the edit modal
-todoListUL.addEventListener('click', (e) => {
-    if (e.target.classList.contains('editButton')) {
-        const todoLI = e.target.closest('li');
-        const todoIndex = Array.from(todoListUL.children).indexOf(todoLI);
-        const currentText = allTodos[todoIndex].text;
-        openEditModal(todoIndex, currentText);
-    }
-});
-
-// Edit an existing todoItem
-function editTodoItem(todoIndex, newText) {
-    const sanitizedText = escapeHtml(newText.trim());
-    if (sanitizedText.length > 0) {
-        allTodos[todoIndex].text = sanitizedText;
-        saveTodos();
-        updateTodoList();
-    }
-}
-
-// Delete a todoItem
-function deleteTodoItem(todoIndex) {
-    allTodos = allTodos.filter((_, i) => i !== todoIndex);
-    saveTodos();
-    updateTodoList();
-}
-
-// Save todos to local storage
-function saveTodos() {
-    localStorage.setItem('todos', JSON.stringify(allTodos));
-}
-
-// Retrieve todos from local storage
-function getTodos() {
-    const todos = localStorage.getItem('todos');
-    return todos ? JSON.parse(todos) : [];
-}
-
-// Update the todoList in the DOM
-function updateTodoList() {
-    todoListUL.innerHTML = '';
-    allTodos.forEach((todo, index) => {
-        const todoItem = createTodoItem(todo, index);
-        todoListUL.appendChild(todoItem);
-    });
-}
-
-// Escape HTML to prevent XSS attacks
+// Escape HTML to prevent XSS
 function escapeHtml(string) {
-    return String(string).replace(/[&<>"'`=/\\]/g, function (s) {
+    return String(string).replace(/[&<>"'`=\/]/g, function (s) {
         return entityMap[s];
     });
 }
 
-// Change favicon based on page visibility
-window.onload = function() {
-    const favicon = document.getElementById('favicon');
+// Delete a todo item
+function deleteTodoItem(todoIndex) {
+    allTodos.splice(todoIndex, 1);
+    saveTodos();
+    updateTodoList();
+}
 
-    document.addEventListener('visibilitychange', function() {
-        const isPageActive = !document.hidden;
-        toggleFavicon(isPageActive);
+// Update the order of todo items after dragging
+function updateTodoOrder() {
+    const updatedTodos = [];
+    todoListUL.querySelectorAll('li').forEach((li) => {
+        const todoIndex = li.dataset.index;
+        const todo = allTodos[todoIndex];
+        if (todo) updatedTodos.push(todo);
     });
+    allTodos = updatedTodos;
+    saveTodos();
+    updateTodoList();
+}
 
-    function toggleFavicon(isPageActive) {
-        if (isPageActive) {
-            favicon.href = './assets/images/logo.png';
-        } else {
-            favicon.href = './assets/images/logo-away.png';
-        }
-    }
-};
-
-// Enable sorting of todoItems
+// Handle drag and drop functionality
 todoListUL.addEventListener('dragover', (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move'; // Set the drop effect to move
@@ -246,15 +211,4 @@ function getDragAfterElement(container, y) {
             return closest;
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element;
-}
-
-function updateTodoOrder() {
-    const updatedTodos = [];
-    todoListUL.querySelectorAll('li').forEach((li) => {
-        const todoText = li.querySelector('.todo-text').textContent.trim();
-        const todo = allTodos.find(todo => todo.text === todoText);
-        if (todo) updatedTodos.push(todo);
-    });
-    allTodos = updatedTodos;
-    saveTodos();
 }
