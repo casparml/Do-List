@@ -122,10 +122,6 @@ form {
      transition: 200ms ease;
 }
 
-.dragging {
-     opacity: 0.5;
- }
-
 /* ==================
     Edit Button Styles
     ================== */
@@ -180,17 +176,6 @@ input[type="checkbox"]:checked ~ .todo-text {
 
 input[type="checkbox"] {
      display: none;
-}
-
-/* ==================
-    Footer Styles
-    ================== */
-footer {
-     border-top-left-radius: 25px;
-     border-top-right-radius: 25px;
-}    
-#footerText {
-     font-size: .85rem;
 }
 
 /* ==================
