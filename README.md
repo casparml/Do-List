@@ -10,6 +10,11 @@
         
 - [ ] Customizations
    - [ ] move items up and down
+     
+### __Recently added__
+
+- [x] move items up and down
+- [x] edit todo items
          
 
 ### __All planned features__
@@ -34,7 +39,7 @@
     - [ ] priority colors
     - [ ] reminders
     - [x] edit todo items
-    - [ ] move items up and down
+    - [x] move items up and down
     - [ ] themes
         - [ ] blue
         - [ ] red
