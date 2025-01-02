@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Initialize Sortable.js
     new Sortable(todoListUL, {
-        animation: 150,
+        animation: 250,
         onEnd: function (evt) {
             const itemEl = evt.item;
             const newIndex = evt.newIndex;
