@@ -52,9 +52,17 @@ function createTodoItem(todo, todoIndex) {
     <label class="todo-text">
         ${todoText}
     </label>
-    <button class="delete-button">
-        <svg fill="var(--secondary-color)" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-            <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+
+    <button class="editButton btn btn-link p-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="var(--secondary-color)" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+        </svg>
+    </button>
+
+    <button class="delete-button btn btn-link p-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="var(--secondary-color)" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
         </svg>
     </button>
     `;
@@ -67,8 +75,8 @@ function createTodoItem(todo, todoIndex) {
         allTodos[todoIndex].completed = checkbox.checked;
         saveTodos();
     });
-    const todoTextLabel = todoLI.querySelector(".todo-text");
-    todoTextLabel.addEventListener("click", (e) => {
+    const editButton = todoLI.querySelector(".editButton");
+    editButton.addEventListener("click", (e) => {
         e.stopPropagation();
         openEditModal(todoIndex, todo.text);
     });
@@ -118,6 +126,16 @@ function openEditModal(todoIndex, currentText) {
         }
     };
 }
+
+// Add event listener to the edit button to open the edit modal
+todoListUL.addEventListener('click', (e) => {
+    if (e.target.classList.contains('editButton')) {
+        const todoLI = e.target.closest('li');
+        const todoIndex = Array.from(todoListUL.children).indexOf(todoLI);
+        const currentText = allTodos[todoIndex].text;
+        openEditModal(todoIndex, currentText);
+    }
+});
 
 // Edit an existing todoItem
 function editTodoItem(todoIndex, newText) {
@@ -180,3 +198,70 @@ window.onload = function() {
         }
     }
 };
+
+// Enable sorting of todoItems
+todoListUL.addEventListener('dragstart', (e) => {
+    if (e.target?.matches('.sortButton')) {
+        e.target.closest('li').classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', null); // Required for Firefox
+
+        // Create a clone of the dragging item for the drag preview
+        const dragPreview = e.target.closest('li').cloneNode(true);
+        dragPreview.style.position = 'absolute';
+        dragPreview.style.top = '-9999px';
+        document.body.appendChild(dragPreview);
+        e.dataTransfer.setDragImage(dragPreview, 0, 0);
+    }
+});
+
+todoListUL.addEventListener('dragend', (e) => {
+    if (e.target?.matches('.sortButton')) {
+        e.target.closest('li').classList.remove('dragging');
+        updateTodoOrder();
+
+        // Remove the drag preview element
+        const dragPreview = document.querySelector('body > li');
+        if (dragPreview) {
+            document.body.removeChild(dragPreview);
+        }
+    }
+});
+
+todoListUL.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    const draggingItem = document.querySelector('.dragging');
+    const afterElement = getDragAfterElement(todoListUL, e.clientY);
+    if (afterElement == null) {
+        todoListUL.appendChild(draggingItem);
+    } else {
+        todoListUL.insertBefore(draggingItem, afterElement);
+    }
+});
+
+function updateTodoOrder() {
+    const updatedTodos = [];
+    todoListUL.querySelectorAll('li').forEach((li) => {
+        const todoText = li.querySelector('.todo-text').textContent.trim();
+        const todo = allTodos.find(todo => todo.text === todoText);
+        if (todo) {
+            updatedTodos.push(todo);
+        }
+    });
+    allTodos = updatedTodos;
+    saveTodos();
+}
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}

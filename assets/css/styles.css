@@ -125,20 +125,22 @@ form {
 }
 
 /* ==================
+    Edit Button Styles
+    ================== */
+.editButton {
+     margin-right: .5rem;
+     border: transparent .5rem solid;
+}
+
+.editButton:hover svg {
+     fill: var(--link-color);
+}
+
+/* ==================
     Delete Button Styles
     ================== */
 .delete-button {
-     padding: 3px;
-     background: none;
-     border: none;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     cursor: pointer;
-}
-
-.delete-button svg {
-     transition: 200ms ease;
+     border: transparent .5rem solid;
 }
 
 .delete-button:hover svg {
@@ -250,10 +252,6 @@ a:hover {
      border: none;
      cursor: pointer;
      font-size: 16px;
-}
-
-button svg {
-     font-size: 3rem;
 }
 
 #cancelButton:hover svg {
