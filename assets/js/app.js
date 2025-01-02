@@ -159,6 +159,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         allTodos.splice(todoIndex, 1);
         saveTodos();
         updateTodoList();
+        toggleSortable(); // Ensure sortable is toggled after deletion
     }
 
     // Initialize Sortable.js
@@ -178,4 +179,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
             updateTodoList();
         }
     });
+
+    // Disable sorting if there is only one item
+    function toggleSortable() {
+        const sortableInstance = Sortable.get(todoListUL);
+        if (allTodos.length <= 1) {
+            sortableInstance.option("disabled", true);
+        } else {
+            sortableInstance.option("disabled", false);
+        }
+    }
+
+    // Call toggleSortable initially and whenever the list is updated
+    toggleSortable();
+    todoForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        addTodo();
+        toggleSortable();
+    });
 });
+
