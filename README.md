@@ -7,9 +7,6 @@
 
 - [ ] Item storage
     - [ ] account bound
-        
-- [ ] Customizations
-   - [ ] move items up and down
      
 ### __Recently added__
 
@@ -46,6 +43,7 @@
         - [ ] green
         - [ ] orange
         - [ ] pink
+        - [ ] custom themes
               
 - [ ] Make an app out of the site
     - [ ] IphoneOS
@@ -62,3 +60,4 @@
     - [ ] dyslexia font
     - [ ] screenreader optimization
     - [ ] agenda connection
+    - [ ] better scrollbar
