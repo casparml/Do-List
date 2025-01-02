@@ -252,22 +252,16 @@ a:hover {
      font-size: 16px;
 }
 
-#cancelButton {
-     color: var(--false-color);
+button svg {
      font-size: 3rem;
 }
 
-#cancelButton:hover {
-     color: var(--false-hover-color);
+#cancelButton:hover svg {
+     fill: var(--false-hover-color);
 }
 
-#saveButton {
-     color: var(--true-color);
-     font-size: 3rem;
-}
-
-#saveButton:hover {
-     color: var(--true-hover-color);
+#saveButton:hover svg {
+     fill: var(--true-hover-color);
 }
 
 /* ==================
