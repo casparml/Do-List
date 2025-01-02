@@ -113,8 +113,6 @@ form {
      padding: 0 16px;
      background-color: var(--primary-color);
      border-radius: 15px;
-     display: flex;
-     align-items: center;
 }
 
 .todo .todo-text {
@@ -123,6 +121,10 @@ form {
      color: var(--text-color);
      transition: 200ms ease;
 }
+
+.dragging {
+     opacity: 0.5;
+ }
 
 /* ==================
     Edit Button Styles
@@ -286,10 +288,6 @@ a:hover {
      h1 {
           margin-top: 50px;
           font-size: 50pt;
-     }
-
-     .todo {
-          border-radius: 12px;
      }
 
      .todo .todo-text {

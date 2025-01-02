@@ -42,6 +42,7 @@ function createTodoItem(todo, todoIndex) {
     const todoLI = document.createElement("li");
     const todoText = escapeHtml(todo.text);
     todoLI.className = "todo d-flex align-items-center";
+    todoLI.draggable = true; // Make the item draggable
     todoLI.innerHTML = `
     <input type="checkbox" id="${todoId}">
     <label class="custom-checkbox" for="${todoId}">
@@ -66,20 +67,39 @@ function createTodoItem(todo, todoIndex) {
         </svg>
     </button>
     `;
+
     const deleteButton = todoLI.querySelector(".delete-button");
     deleteButton.addEventListener("click", () => {
         deleteTodoItem(todoIndex);
     });
+
     const checkbox = todoLI.querySelector("input");
     checkbox.addEventListener("change", () => {
         allTodos[todoIndex].completed = checkbox.checked;
         saveTodos();
     });
+
     const editButton = todoLI.querySelector(".editButton");
     editButton.addEventListener("click", (e) => {
         e.stopPropagation();
         openEditModal(todoIndex, todo.text);
     });
+
+    const todoTextLabel = todoLI.querySelector(".todo-text");
+    todoTextLabel.addEventListener("click", () => {
+        todoLI.classList.toggle("expanded");
+    });
+
+    // Add drag event listeners
+    todoLI.addEventListener('dragstart', (e) => {
+        todoLI.classList.add('dragging');
+    });
+
+    todoLI.addEventListener('dragend', (e) => {
+        todoLI.classList.remove('dragging');
+        updateTodoOrder();
+    });
+
     checkbox.checked = todo.completed;
     return todoLI;
 }
@@ -200,37 +220,12 @@ window.onload = function() {
 };
 
 // Enable sorting of todoItems
-todoListUL.addEventListener('dragstart', (e) => {
-    if (e.target?.matches('.sortButton')) {
-        e.target.closest('li').classList.add('dragging');
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', null); // Required for Firefox
-
-        // Create a clone of the dragging item for the drag preview
-        const dragPreview = e.target.closest('li').cloneNode(true);
-        dragPreview.style.position = 'absolute';
-        dragPreview.style.top = '-9999px';
-        document.body.appendChild(dragPreview);
-        e.dataTransfer.setDragImage(dragPreview, 0, 0);
-    }
-});
-
-todoListUL.addEventListener('dragend', (e) => {
-    if (e.target?.matches('.sortButton')) {
-        e.target.closest('li').classList.remove('dragging');
-        updateTodoOrder();
-
-        // Remove the drag preview element
-        const dragPreview = document.querySelector('body > li');
-        if (dragPreview) {
-            document.body.removeChild(dragPreview);
-        }
-    }
-});
-
 todoListUL.addEventListener('dragover', (e) => {
     e.preventDefault();
+    e.dataTransfer.dropEffect = 'move'; // Set the drop effect to move
     const draggingItem = document.querySelector('.dragging');
+    if (!draggingItem) return;
+    
     const afterElement = getDragAfterElement(todoListUL, e.clientY);
     if (afterElement == null) {
         todoListUL.appendChild(draggingItem);
@@ -239,22 +234,9 @@ todoListUL.addEventListener('dragover', (e) => {
     }
 });
 
-function updateTodoOrder() {
-    const updatedTodos = [];
-    todoListUL.querySelectorAll('li').forEach((li) => {
-        const todoText = li.querySelector('.todo-text').textContent.trim();
-        const todo = allTodos.find(todo => todo.text === todoText);
-        if (todo) {
-            updatedTodos.push(todo);
-        }
-    });
-    allTodos = updatedTodos;
-    saveTodos();
-}
-
 function getDragAfterElement(container, y) {
     const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
-
+    
     return draggableElements.reduce((closest, child) => {
         const box = child.getBoundingClientRect();
         const offset = y - box.top - box.height / 2;
@@ -264,4 +246,15 @@ function getDragAfterElement(container, y) {
             return closest;
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+function updateTodoOrder() {
+    const updatedTodos = [];
+    todoListUL.querySelectorAll('li').forEach((li) => {
+        const todoText = li.querySelector('.todo-text').textContent.trim();
+        const todo = allTodos.find(todo => todo.text === todoText);
+        if (todo) updatedTodos.push(todo);
+    });
+    allTodos = updatedTodos;
+    saveTodos();
 }
