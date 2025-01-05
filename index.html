@@ -35,6 +35,10 @@
     </script>
 </head>
 <body class="d-flex flex-column min-vh-100">
+    <!-- Sidebar Toggle Button -->
+    <button id="sidebar-toggle-button" class="btn btn-primary">Toggle Sidebar</button>
+    <!-- Delete Folder Button -->
+    <button id="delete-folder-button" class="btn btn-danger">Delete This Folder</button>
     <!-- Main content -->
     <main class="container flex-grow-1">
         <div class="row">
@@ -44,12 +48,25 @@
                 </div>
                 <div class="col-12">
                     <div class="d-flex justify-content-center">
-                        <div class="wrapper">
-                            <form class="d-flex flex-column mb-3">
-                                <input id="todo-input" type="text" class="form-control me-2" placeholder="Write anything and hit enter to add" autocomplete="off">
-                                <button id="add-button" class="btn btn-primary">ADD</button>
-                            </form>
-                            <ul id="todo-list" class="list-group"></ul>
+                        <div id="sidebar" class="sidebar">
+                            <ul id="folder-list" class="list-group d-flex align-items-center"></ul>
+                            <button id="add-folder-button" class="btn btn-primary">Add Folder</button>
+                        </div>
+                        <div class="row d-flex align-items-center">
+                            <div class="col-12">
+                                <div class="wrapper d-flex align-items-center">
+                                    <form class="d-flex justify-content-center flex-column mb-3">
+                                        <input id="todo-input" type="text" class="form-control me-2" placeholder="Write anything and hit enter to add" autocomplete="off">
+                                        <button id="add-button" class="btn btn-primary">ADD</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="wrapper">
+                                    <ul id="todo-list" class="list-group"></ul>
+                                </div>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -96,5 +113,3 @@
     <script src="assets/js/app.js"></script>
 </body>
 </html>
-
-

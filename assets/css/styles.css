@@ -14,6 +14,15 @@
      --true-hover-color: #16cc37d8;
      --false-color: #FF002a;
      --false-hover-color: #FF002ad8;
+
+     /* Folder Styles */
+     --folder-border-size: 3px;
+     --folder-hover-color: #f7f7f7fd;
+
+     /* Transition Variables */
+     --transition: 200ms ease;
+
+     
 }
 
 /* ==================
@@ -49,8 +58,6 @@ h1 {
     Wrapper Styles
     ================== */
 .wrapper {
-     width: 700px;
-     max-width: 100%;
      display: flex;
      flex-direction: column;
      gap: 10px;
@@ -62,7 +69,7 @@ h1 {
 #todo-input {
      box-sizing: border-box;
      padding: 12px 20px;
-     width: 100%;
+     width: 30rem;
      background: none;
      outline: none;
      border: 2px solid var(--primary-color);
@@ -252,6 +259,67 @@ a:hover {
 }
 
 /* ==================
+    Folder Styles
+    ================== */
+
+
+#folder-list {
+     background-color: #101114a0;
+     border: var(--background) 
+     var(--folder-border-size) solid;
+
+}
+
+.folder {
+     cursor: pointer;
+     width: fit-content;
+}
+
+.folder svg {
+     cursor: pointer;
+}
+
+.folder .folder-icon {
+    margin-right: 0; /* Remove margin */
+}
+
+/* Hide the delete folder button on larger screens */
+#delete-folder-button {
+    display: none;
+}
+
+/* ==================
+    Sidebar Styles
+    ================== */
+.sidebar {
+    background-color: var(--primary-color);
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    z-index: 1000; /* Ensure the sidebar is above other elements */
+    transform: translateX(-100%);
+    transition: transform var(--transition);
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+/* Ensure the buttons are always visible */
+#sidebar-toggle-button,
+#delete-folder-button {
+    display: block;
+    margin: 10px;
+}
+
+.sidebar .list-group {
+    margin-bottom: 20px;
+}
+
+/* ==================
     Responsive Styles
     ================== */
 @media(max-width: 700px) {
@@ -262,11 +330,12 @@ a:hover {
      #todo-input {
           text-align: center;
           border-radius: 10px 10px 0 0;
+          width: 20rem;
      }
      
      #add-button {
           position: unset;
-          width: 100%;
+          width: 20rem;
           padding: 15px;
           border-radius: 0 0 10px 10px;
           height: auto;
