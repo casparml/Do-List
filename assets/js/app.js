@@ -206,21 +206,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Create a todoItem element
     function createTodoItem(todo, todoIndex) {
-        const todoId = "todo-" + todoIndex;
+        const todoId = `todo-${todoIndex}-${Date.now()}`;
         const todoLI = document.createElement("li");
         const todoText = escapeHtml(todo.text);
-        todoLI.className = "todo d-flex align-items-center";
+        todoLI.className = "todo d-flex align-items-center sortable-item";
         todoLI.dataset.index = todoIndex; // Store the index as a data attribute
         todoLI.innerHTML = `
+        <div class="drag-handle mt-2 me-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="var(--secondary-color)" viewBox="0 0 16 16">
+                <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+            </svg>
+        </div>
         <input type="checkbox" id="${todoId}">
         <label class="custom-checkbox" for="${todoId}">
             <svg fill="transparent" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                 <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
             </svg>
         </label>
-        <label class="todo-text">
-            ${todoText}
-        </label>
+        <span class="todo-text">${todoText}</span>
 
         <button class="editButton btn btn-link p-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="var(--secondary-color)" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -277,9 +280,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             </svg>`;
 
         folderLI.innerHTML = `
-        <label class="folder-icon">
+        <span class="folder-icon">
             ${folderIcon}
-        </label>
+        </span>
         `;
 
         folderLI.addEventListener("click", (event) => {
@@ -334,16 +337,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Initialize Sortable.js
     new Sortable(todoListUL, {
         animation: 250,
+        handle: '.drag-handle',
         onEnd: function (evt) {
-            const itemEl = evt.item;
-            const newIndex = evt.newIndex;
-            const oldIndex = evt.oldIndex;
-
-            // Update the order of the todos in the array
-            const movedTodo = allTodos.splice(oldIndex, 1)[0];
-            allTodos.splice(newIndex, 0, movedTodo);
-
-            // Save the updated order
+            // Get current folder's todos only
+            const currentFolderTodos = allTodos.filter(todo => todo.folder === currentFolder);
+            
+            // Get moved item and update order
+            const movedTodo = currentFolderTodos.splice(evt.oldIndex, 1)[0];
+            currentFolderTodos.splice(evt.newIndex, 0, movedTodo);
+            
+            // Update main todos array
+            allTodos = allTodos.filter(todo => todo.folder !== currentFolder)
+                .concat(currentFolderTodos);
+            
+            // Update indices
+            Array.from(todoListUL.children).forEach((item, index) => {
+                item.dataset.index = index;
+            });
+    
+            // Save and update UI
             saveTodos();
             updateTodoList();
         }
@@ -361,11 +373,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Call toggleSortable initially and whenever the list is updated
     toggleSortable();
-
-    // Example function to handle folder click event
-    folderListUL.addEventListener('click', function(e) {
-        if (e.target && e.target.matches('.folder')) {
-            setCurrentFolder(e.target.textContent);
-        }
-    });
 });

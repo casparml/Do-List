@@ -130,6 +130,21 @@ form {
 }
 
 /* ==================
+    Drag handle Styles
+    ================== */
+.drag-handle {
+     cursor: move;
+ }
+ 
+ .sortable-item {
+     user-select: none;
+ }
+ 
+ .sortable-ghost {
+     opacity: 0.5;
+ }
+
+/* ==================
     Edit Button Styles
     ================== */
 .editButton {
