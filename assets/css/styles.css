@@ -134,6 +134,7 @@ form {
     ================== */
 .drag-handle {
      cursor: move;
+     border: transparent .25rem solid;
  }
  
  .sortable-item {
