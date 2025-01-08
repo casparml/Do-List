@@ -63,6 +63,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
+    // Add form submit handler
+    todoForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const todoText = todoInput.value.trim();
+
+        if (todoText) {
+            // Add new todoItem
+            allTodos.push({
+                text: todoText,
+                completed: false,
+                folder: currentFolder
+            });
+
+            // Clear input
+            todoInput.value = '';
+
+            // Save and update
+            saveTodos();
+            updateTodoList();
+            toggleSortable();
+        }
+    });
+
+
     // Add a new todoItem
     function addTodo() {
         const todoText = todoInput.value.trim();
@@ -83,11 +107,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function openEditModal(todoIndex, todoText) {
         const editModal = document.getElementById('editModal');
         const editInput = document.getElementById('editInput');
-        const saveButton = document.getElementById('saveButton');
-        const cancelButton = document.getElementById('cancelButton');
-
+        const editForm = document.getElementById('editForm');
+    
         editInput.value = todoText;
+        editInput.dataset.todoIndex = todoIndex;
         editModal.style.display = 'block';
+    
+        // Add submit handler for edit form
+        editForm.onsubmit = function(e) {
+            e.preventDefault();
+            const newText = editInput.value.trim();
+            
+            if (newText) {
+                allTodos[todoIndex].text = newText;
+                saveTodos();
+                updateTodoList();
+                editModal.style.display = 'none';
+            }
+        };
 
         // Save changes
         saveButton.onclick = function() {
