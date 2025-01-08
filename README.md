@@ -9,12 +9,14 @@
     - [ ] account bound
 
 - [ ] Customizations
-    - [ ] folders
+    - [ ] star folders
+    
           
 ### __Recently added__
 
 - [x] move items up and down
 - [x] edit todo items
+- [x] folders
          
 
 ### __All planned features__
@@ -33,7 +35,8 @@
     - [ ] more oAuth2
           
 - [ ] Customizations
-    - [ ] folders
+    - [x] folders
+    - [ ] star folders
     - [ ] archive items and folders
     - [ ] labels and tags
     - [ ] priority colors
